@@ -1,0 +1,3 @@
+upload_js:
+  url:      /sfUploadPlugin/js/upload.js
+  param:    { module: upload, action: javascript, sf_format: js }

@@ -1,0 +1,3 @@
+all:
+  uploads:
+    max:    5     # Max amount of uploads for your model
