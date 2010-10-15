@@ -17,4 +17,11 @@ $(document).ready(function() {
     
     return false;
   });
+  
+  // $('.upload .checkbox').click(function(){
+  //   if ($(this).attr('checked'))
+  //     $(this).parent().find('input[type=hidden]').attr('disabled', 'disabled');
+  //   else
+  //     $(this).parent().find('input[type=hidden]').removeAttr('disabled');
+  // });
 });

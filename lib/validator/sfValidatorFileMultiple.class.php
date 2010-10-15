@@ -48,11 +48,24 @@ class sfValidatorFileMultiple extends sfValidatorBase
   {
     $clean = array();
 
-    $fileVal = new sfValidatorFile((array) $this->options, (array) $this->messges);
+    $fileVal = new sfValidatorFile((array) $this->options, (array) $this->messages);
     
+    // Observe "remove" checkbox, if present
+    if (isset($value['remove'])) 
+    {
+      $remove = $value['remove'];
+      unset($value['remove']);
+      $value = array_diff_key($value, $remove);
+    }
+
     foreach ((array) $value as $key => $file) 
     {
-      if($validatedFile = $fileVal->clean($file))
+      if (!is_array($file)) 
+      {
+        // This file has already been uploaded
+        $clean[$key] = $file;
+      }
+      elseif($validatedFile = $fileVal->clean($file))
       {
         $validatedFile->save();
         $clean[$validatedFile->getOriginalName()] = basename($validatedFile->getSavedName());
