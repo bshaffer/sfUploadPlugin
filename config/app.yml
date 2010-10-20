@@ -1,3 +1,4 @@
 all:
   uploads:
-    max:    5     # Max amount of uploads for your model
+    max:        5         # Max amount of uploads for your model
+    disable_js: false     # disable use of javascript for multiple uploads

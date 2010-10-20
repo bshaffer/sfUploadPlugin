@@ -5,9 +5,18 @@
 */
 class sfWidgetFormInputFileMultiple extends sfWidgetFormInputFile
 {
+  public function configure($options = array(), $attributes = array())
+  {    
+    // Widget gracefully degrades w/o javascript
+    $this->addOption('disable_js', sfConfig::get('app_uploads_disable_js'));
+    $this->addOption('max', sfConfig::get('app_uploads_max', 5));
+
+    parent::configure($options, $attributes);
+  }
+  
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
-    $widget     = new sfWidgetFormInputFile($this->options, $this->attributes);
+    $widget     = $this->getFileWidget($name);
     $prototype  = $widget->render($name.'[]', null, array_merge(array('disabled' => true), $attributes));
     
     $html       = $this->renderContentTag('div', $prototype, array('class' => 'prototype', 'style' => 'display:none'));
@@ -29,14 +38,34 @@ class sfWidgetFormInputFileMultiple extends sfWidgetFormInputFile
       }
     }
 
-    $html      .= $this->renderFileWidget($name, null, $attributes, $errors);
-    
+    if ($this->getOption('disable_js')) 
+    {
+      $numAvailable = $this->getOption('max') - count((array) $value);
+      for ($i = 0; $i < $numAvailable; $i++) 
+      {
+        $html .= $this->renderFileWidget($name, null, $attributes, $errors);
+      }
+    }
+    else
+    {
+      // Add one empty guy
+      $html .= $this->renderFileWidget($name, null, $attributes, $errors)
+        . $this->renderContentTag('a', '+ Add Another File', array('id' => 'upload-another', 'href' => '#'));
+    }
+
     return $html;
+  }
+  
+  protected function getFileWidget($name)
+  {
+    $options = $this->options;
+    unset($options['disable_js'], $options['max']);
+    return new sfWidgetFormInputFile($options, $this->attributes);
   }
   
   protected function renderFileWidget($name, $uploadValue, $attributes, $errors)
   {
-    $widget = new sfWidgetFormInputFile($this->options, $this->attributes);
+    $widget = $this->getFileWidget($name);
     $inner  = $widget->render($name.'[]', $uploadValue, $attributes, $errors);
     return $this->renderContentTag('div', $inner, array('class' => 'upload'));
   }
