@@ -17,4 +17,7 @@ $(document).ready(function() {
     
     return false;
   });
+  
+  if ($('div#uploads div.upload').length >= <?php echo sfConfig::get('app_uploads_max', 5) ?>)
+    $('#upload-another').hide();
 });

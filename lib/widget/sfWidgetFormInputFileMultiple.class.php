@@ -38,9 +38,10 @@ class sfWidgetFormInputFileMultiple extends sfWidgetFormInputFile
       }
     }
 
+    $numAvailable = $this->getOption('max') - count((array) $value);
+
     if ($this->getOption('disable_js')) 
-    {
-      $numAvailable = $this->getOption('max') - count((array) $value);
+    {  
       for ($i = 0; $i < $numAvailable; $i++) 
       {
         $html .= $this->renderFileWidget($name, null, $attributes, $errors);
@@ -48,9 +49,13 @@ class sfWidgetFormInputFileMultiple extends sfWidgetFormInputFile
     }
     else
     {
-      // Add one empty guy
-      $html .= $this->renderFileWidget($name, null, $attributes, $errors)
-        . $this->renderContentTag('a', '+ Add Another File', array('id' => 'upload-another', 'href' => '#'));
+      if ($numAvailable > 0) 
+      {
+        // Add one empty guy
+        $html .= $this->renderFileWidget($name, null, $attributes, $errors);
+      }
+      // Add "Add Another" link
+      $html .= $this->renderContentTag('a', '+ Add Another File', array('id' => 'upload-another', 'href' => '#'));
     }
 
     return $html;
