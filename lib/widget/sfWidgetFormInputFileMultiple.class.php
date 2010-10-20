@@ -60,6 +60,16 @@ class sfWidgetFormInputFileMultiple extends sfWidgetFormInputFile
 
     return $html;
   }
+
+  /**
+   * Gets the JavaScript paths associated with the widget.
+   *
+   * @return array An array of JavaScript paths
+   */
+  public function getJavaScripts()
+  {
+    return array('/sfUploadPlugin/js/upload.js' => 'all');
+  }
   
   protected function getFileWidget($name)
   {
