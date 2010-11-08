@@ -20,11 +20,6 @@ class sfValidatorFileMultiple extends sfValidatorBase
 
     $this->addOption('max_size');
     $this->addOption('mime_types');
-    $this->addOption('mime_type_guessers', array(
-      array($this, 'guessFromFileinfo'),
-      array($this, 'guessFromMimeContentType'),
-      array($this, 'guessFromFileBinary'),
-    ));
     $this->addOption('mime_categories', array(
       'web_images' => array(
         'image/jpeg',
@@ -73,5 +68,5 @@ class sfValidatorFileMultiple extends sfValidatorBase
     }
 
     return $clean;
-  }
+  }  
 }
