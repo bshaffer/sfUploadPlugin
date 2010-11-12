@@ -49,14 +49,14 @@ class sfWidgetFormInputFileMultiple extends sfWidgetFormInputFile
     }
     else
     {
-      if ($numAvailable > 0) 
-      {
-        // Add one empty guy
-        $html .= $this->renderFileWidget($name, null, $attributes, $errors);
-      }
+      // Add one empty guy
+      $html .= $this->renderFileWidget($name, null, $attributes, $errors);
+
       // Add "Add Another" link
-      $html .= $this->renderContentTag('a', '+ Add Another File', array('id' => 'upload-another', 'href' => '#'));
+      $html .= $this->renderContentTag('a', '+ Add Another File', array('class' => 'upload-another', 'href' => '#'));
     }
+
+    $html = $this->renderContentTag('div', $html, array('class' => 'uploads', 'max' => $this->getOption('max')));
 
     return $html;
   }

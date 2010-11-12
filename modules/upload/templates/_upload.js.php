@@ -1,23 +1,30 @@
 // This code has been rendered by the odcAttachmentPlugin
 
 $(document).ready(function() {
-  $('#upload-another').click(function() {
-    var length     = $('div#uploads div.upload').length;
-    var maxUploads = <?php echo sfConfig::get('app_uploads_max', 5) ?>;
+  $('.upload-another').click(function() {
+    var uploadDiv  = $(this).parents('div.uploads');
+    var length     = uploadDiv.find('div.upload').length;
+    var maxUploads = uploadDiv.attr('max');
     
-    if (length < maxUploads)
+    if (!maxUploads || length < maxUploads)
     {
-      var ptype = $('div#uploads div.prototype').html();
+      var ptype = uploadDiv.find('div.prototype').html();
       ptype = ptype.replace('disabled', ''); // Enabled upload
-      $('#upload-another').before('<div class="upload">' + ptype + '</div>');
+      $(this).before('<div class="upload">' + ptype + '</div>');
     }
-    
-    if (length+1 >= maxUploads)
-      $('#upload-another').hide();
+
+    if (maxUploads) 
+    {    
+      if (length+1 >= maxUploads)
+        $(this).hide();
+    }
     
     return false;
   });
   
-  if ($('div#uploads div.upload').length >= <?php echo sfConfig::get('app_uploads_max', 5) ?>)
-    $('#upload-another').hide();
+  $('div.uploads').each(function(){
+    var maxUploads = $(this).attr('max');
+    if (maxUploads && $(this).find('div.upload').length >= maxUploads)
+      $(this).find('.upload-another').hide();
+  });
 });
