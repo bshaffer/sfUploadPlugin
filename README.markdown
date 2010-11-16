@@ -8,7 +8,7 @@ Installation
 
 ### With git
 
-    git submodule add git://github.com/bshaffer/sfUploadsPlugin.git plugins/sfUploadsPlugin
+    git submodule add git://github.com/bshaffer/sfUploadPlugin.git plugins/sfUploadPlugin
     git submodule init
     git submodule update
 
@@ -18,7 +18,7 @@ Installation
 
 In the editor that's displayed, add the following entry and then save
 
-    sfUploadsPlugin https://svn.github.com/bshaffer/sfUploadsPlugin.git
+    sfUploadPlugin https://svn.github.com/bshaffer/sfUploadPlugin.git
 
 Finally, update:
 
@@ -29,7 +29,7 @@ Finally, update:
 In your `config/ProjectConfiguration.class.php` file, make sure you have
 the plugin enabled.
 
-    $this->enablePlugins('sfUploadsPlugin');
+    $this->enablePlugins('sfUploadPlugin');
     
 Publish your assets
 
