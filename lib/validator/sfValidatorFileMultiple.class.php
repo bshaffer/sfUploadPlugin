@@ -30,6 +30,7 @@ class sfValidatorFileMultiple extends sfValidatorBase
     )));
     $this->addOption('validated_file_class', 'sfValidatedFile');
     $this->addOption('path', null);
+    $this->addOption('max', sfConfig::get('app_uploads_max', 5));
 
     $this->addMessage('max_size', 'File is too large (maximum is %max_size% bytes).');
     $this->addMessage('mime_types', 'Invalid mime type (%mime_type%).');
@@ -37,12 +38,14 @@ class sfValidatorFileMultiple extends sfValidatorBase
     $this->addMessage('no_tmp_dir', 'Missing a temporary folder.');
     $this->addMessage('cant_write', 'Failed to write file to disk.');
     $this->addMessage('extension', 'File upload stopped by extension.');
+    $this->addMessage('max', 'Only %max% uploads allowed - %actual% provided');
   }
     
   public function doClean($value)
   {
     $clean = array();
-
+    $max   = $this->getOption('max');
+    
     $fileVal = new sfValidatorFile((array) $this->options, (array) $this->messages);
     
     // Observe "remove" checkbox, if present
@@ -52,6 +55,8 @@ class sfValidatorFileMultiple extends sfValidatorBase
       unset($value['remove']);
       $value = array_diff_key($value, $remove);
     }
+    
+    $count = 0;
 
     foreach ((array) $value as $key => $file) 
     {
@@ -66,7 +71,12 @@ class sfValidatorFileMultiple extends sfValidatorBase
         $clean[$validatedFile->getOriginalName()] = basename($validatedFile->getSavedName());
       }
     }
+    
+    if ($max && count($clean) > $max) 
+    {
+      throw new sfValidatorError($this, 'max', array('max' => $max, 'actual' => count($clean)));
+    }
 
     return $clean;
-  }  
+  }
 }
