@@ -8,8 +8,8 @@ class sfWidgetFormInputFileMultiple extends sfWidgetFormInputFile
   public function configure($options = array(), $attributes = array())
   {    
     // Widget gracefully degrades w/o javascript
-    $this->addOption('disable_js', sfConfig::get('app_uploads_disable_js'));
-    $this->addOption('max', sfConfig::get('app_uploads_max', 5));
+    $this->addOption('disable_js', false);
+    $this->addOption('max', 5);
 
     parent::configure($options, $attributes);
   }

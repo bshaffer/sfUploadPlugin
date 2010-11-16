@@ -30,7 +30,7 @@ class sfValidatorFileMultiple extends sfValidatorBase
     )));
     $this->addOption('validated_file_class', 'sfValidatedFile');
     $this->addOption('path', null);
-    $this->addOption('max', sfConfig::get('app_uploads_max', 5));
+    $this->addOption('max', 5);
 
     $this->addMessage('max_size', 'File is too large (maximum is %max_size% bytes).');
     $this->addMessage('mime_types', 'Invalid mime type (%mime_type%).');
@@ -46,7 +46,10 @@ class sfValidatorFileMultiple extends sfValidatorBase
     $clean = array();
     $max   = $this->getOption('max');
     
-    $fileVal = new sfValidatorFile((array) $this->options, (array) $this->messages);
+    $messages = $this->messages;
+    $options  = $this->options;
+    unset($messages['max'], $options['max'], $options['disable_js']);
+    $fileVal = new sfValidatorFile((array) $options, (array) $messages);
     
     // Observe "remove" checkbox, if present
     if (isset($value['remove'])) 
