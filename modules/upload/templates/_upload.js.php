@@ -1,4 +1,4 @@
-// This code has been rendered by the odcAttachmentPlugin
+// This code has been rendered by the sfUploadPlugin
 
 $(document).ready(function() {
   $('.upload-another').click(function() {
